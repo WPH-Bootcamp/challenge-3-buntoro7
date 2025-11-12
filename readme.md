@@ -3,9 +3,9 @@
 
 # Description
 
-In this challenge, you'll build a command-line application using JavaScript that acts as a simple calculator and a basic data analyzer. This challenge is designed to reinforce your understanding of core JavaScript concepts, including variables (var, let, const), data types, explicit and implicit type conversions, basic math operators, conditional statements (if/else, ternary, logical operators), loops (while, for), switch statements, and functions (function declarations, expressions, and arrow functions).
+In this Challenge, I build a command-line application using javascript for a simple calculator and basic data analyzer. I use variables (Let and const), data types, explicit and implicit type conversation, basic math operators, conditional statements such as if/else, ternary, logical operators, loop such as while and for, also switch statements, and functions such as function declaration, expresions and arrow functions.
 
-You will be given a basic project structure, and your task will be to implement the logic to handle user input, perform calculations, and analyze the resulting data.
+I also add the index.html to execute index.js, because I want to combine the  javascript and html, to improve my challenge.
 
 # Folder Structure
 

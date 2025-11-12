@@ -1,3 +1,4 @@
+"use strict";
 function getValidNumberInput(promptMessage) {
   while (true) {
     const input = prompt(promptMessage);
