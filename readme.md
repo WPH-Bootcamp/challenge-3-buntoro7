@@ -1,11 +1,10 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/Lhf0w45z)
+
 # Challenge 3 - The Interactive Calculator & Data Analyzer
 
 # Description
 
 In this Challenge, I build a command-line application using javascript for a simple calculator and basic data analyzer. I use variables (Let and const), data types, explicit and implicit type conversation, basic math operators, conditional statements such as if/else, ternary, logical operators, loop such as while and for, also switch statements, and functions such as function declaration, expresions and arrow functions.
-
-I also add the index.html to execute index.js, because I want to combine the  javascript and html, to improve my challenge.
 
 # Folder Structure
 
