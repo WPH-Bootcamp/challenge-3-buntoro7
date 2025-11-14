@@ -1,216 +1,161 @@
 "use strict";
+
+// Import prompt-sync
+const prompt = require("prompt-sync")({ sigint: true });
+
+/* ===========================================
+1. User Input Handling
+=========================================== */
+
+// Get valid number
 function getValidNumberInput(promptMessage) {
+  let userInput;
   while (true) {
-    const input = prompt(promptMessage);
+    userInput = prompt(promptMessage);
+    const numberValue = Number(userInput);
 
-    if (input === null) {
-      return null;
+    if (!isNaN(numberValue)) {
+      return numberValue;
     }
 
-    const number = Number(input);
-
-    if (!isNaN(number)) {
-      return number;
-    } else {
-      alert("Error: Input valid number, please!");
-    }
+    console.log("Input tidak valid! Masukkan angka yang benar.\n");
   }
 }
 
+// Get valid operator
 function getValidOperatorInput(promptMessage) {
   const validOperators = ["+", "-", "*", "/", "%", "**"];
+  let operator;
 
   while (true) {
-    const input = prompt(promptMessage);
+    operator = prompt(promptMessage);
 
-    if (input === null) {
-      return null;
+    if (validOperators.includes(operator)) {
+      return operator;
     }
 
-    if (validOperators.includes(input.trim())) {
-      return input.trim();
-    } else {
-      alert(
-        `Error: Please enter a valid operator (${validOperators.join(", ")})`
-      );
-    }
+    console.log("Operator tidak valid! Pilih salah satu: +, -, *, /, %, **\n");
   }
 }
 
-function calculatorWithInput() {
-  console.log("=== Simple Calculator ===");
+/* ===========================================
+2. Basic Arithmetic Operation (Functions and Operators)
+=========================================== */
 
-  const num1 = getValidNumberInput("Enter the first number:");
-  if (num1 === null) {
-    console.log("Operation cancelled by user.");
-    return;
-  }
+function add(a, b) {
+  return a + b;
+}
 
-  const num2 = getValidNumberInput("Enter the second number:");
-  if (num2 === null) {
-    console.log("Operation cancelled by user.");
-    return;
-  }
+function subtract(a, b) {
+  return a - b;
+}
 
-  const operator = getValidOperatorInput("Enter operator (+, -, *, /, %, **):");
-  if (operator === null) {
-    console.log("Operation cancelled by user.");
-    return;
-  }
+function multiply(a, b) {
+  return a * b;
+}
+
+function divide(a, b) {
+  if (b === 0) return "Error: Division by zero!";
+  return a / b;
+}
+
+function modulo(a, b) {
+  return a % b;
+}
+
+function power(a, b) {
+  return a ** b;
+}
+
+/* ===========================================
+3. Main Calculator Logic (Switch & If/Else)
+=========================================== */
+
+while (true) {
+  console.log("\n=== SIMPLE WPH BATCH DONAT CALCULATOR ===");
+
+  const num1 = getValidNumberInput("Masukkan angka pertama: ");
+  const operator = getValidOperatorInput(
+    "Masukkan operator (+, -, *, /, %, **): "
+  );
+  const num2 = getValidNumberInput("Masukkan angka kedua: ");
 
   let result;
+
+  // SWITCH for choosing operation
   switch (operator) {
     case "+":
-      result = num1 + num2;
+      result = add(num1, num2);
       break;
     case "-":
-      result = num1 - num2;
+      result = subtract(num1, num2);
       break;
     case "*":
-      result = num1 * num2;
+      result = multiply(num1, num2);
       break;
     case "/":
-      if (num2 === 0) {
-        result = "Error: Division by zero";
-      } else {
-        result = num1 / num2;
-      }
+      result = divide(num1, num2);
       break;
     case "%":
-      result = num1 % num2;
+      result = modulo(num1, num2);
       break;
     case "**":
-      result = Math.pow(num1, num2);
+      result = power(num1, num2);
       break;
     default:
-      result = "Error: Invalid operator";
+      result = undefined;
   }
 
-  console.log(`Calculation: ${num1} ${operator} ${num2} = ${result}`);
-  alert(`Result: ${num1} ${operator} ${num2} = ${result}`);
-  return result;
-}
+  console.log(`\nHasil: ${result}`);
 
-function dataAnalyzerWithInput() {
-  console.log("\n=== Basic Data Analyzer ===");
+  /* ===========================================
+    4. Data Type Analysis & Conditional Output
+    =========================================== */
 
-  const count = getValidNumberInput("How many numbers do you want to analyze?");
-  if (count === null || count <= 0) {
-    console.log("Operation cancelled or invalid count.");
-    return;
-  }
+  const resultType = typeof result;
+  console.log(`Tipe data hasil: ${resultType}`);
 
-  const numbers = [];
-  for (let i = 0; i < count; i++) {
-    const number = getValidNumberInput(`Enter number ${i + 1}:`);
-    if (number === null) {
-      console.log("Operation cancelled by user.");
-      return;
+  // If result is number
+  if (resultType === "number") {
+    // Positive / Negative / Zero
+    if (result > 0) {
+      console.log("Nilai positif.");
+    } else if (result < 0) {
+      console.log("Nilai negatif.");
+    } else {
+      console.log("Nilai nol.");
     }
-    numbers.push(number);
-  }
 
-  const analysis = analyzeData(numbers);
-  console.log("Dataset:", numbers);
-  console.log("Analysis:", analysis);
-
-  alert(`Data Analysis Results:\n
-Numbers: ${numbers.join(", ")}
-Sum: ${analysis.sum}
-Average: ${analysis.average}
-Min: ${analysis.min}
-Max: ${analysis.max}`);
-}
-
-function analyzeData(data) {
-  if (!Array.isArray(data) || data.length === 0) {
-    return "Error: Invalid data input";
-  }
-
-  const sum = data.reduce((acc, val) => acc + val, 0);
-  const average = sum / data.length;
-  const min = Math.min(...data);
-  const max = Math.max(...data);
-
-  return {
-    sum,
-    average: Number(average.toFixed(2)),
-    min,
-    max,
-  };
-}
-
-// Menu
-function showMenu() {
-  while (true) {
-    const choice = prompt(`Please choice the Option:
-1. Simple Calculator - The Version of Boocamp WPH batch Donat
-2. Data Analyzer - The version of Boocamp WPH batch Donat
-3. Exit
-
-Please Choice (1-3):`);
-
-    switch (choice) {
-      case "1":
-        calculatorWithInput();
-        break;
-      case "2":
-        dataAnalyzerWithInput();
-        break;
-      case "3":
-        console.log("Goodbye!");
-        return;
-      case null:
-        console.log("Operation cancelled. Goodbye!");
-        return;
-      default:
-        alert("Invalid choice! Please enter 1, 2, or 3.");
+    // Integer or Float
+    if (Number.isInteger(result)) {
+      console.log("Tipe angka: Integer");
+    } else {
+      console.log("Tipe angka: Float");
     }
+
+    // Even or Odd (ternary)
+    console.log(result % 2 === 0 ? "Angka Genap (Even)" : "Angka Ganjil (Odd)");
+
+    // Example of logical operator: positive AND even
+    if (result > 0 && result % 2 === 0) {
+      console.log("Catatan: Angka ini positif DAN genap (menggunakan &&).");
+    }
+  } else if (resultType === "string") {
+    // Error message
+    console.log("Pesan error:", result);
+  } else {
+    // Nullish Coalescing
+    console.log(result ?? "Result is undefined or null, something went wrong!");
+  }
+
+  /* ===========================================
+    5. Exit Mechanism (Loops & Conditionals)
+    =========================================== */
+
+  const continueCalc = prompt("\nHitung lagi? (yes/no): ").toLowerCase();
+
+  if (continueCalc === "no") {
+    console.log("Program selesai. Terima kasih!");
+    break;
   }
 }
-
-function runDemo() {
-  console.log("=== Auto Demo Mode ===");
-
-  // Demo Calculator
-  console.log("Calculator Demo:");
-  console.log("5 + 3 =", calculator(5, 3, "+"));
-  console.log("10 / 2 =", calculator(10, 2, "/"));
-  console.log("7 * 0 =", calculator(7, 0, "*"));
-  console.log("4 - 9 =", calculator(4, 9, "-"));
-  console.log("5 / 0 =", calculator(5, 0, "/"));
-  console.log("2 ** 3 =", calculator(2, 3, "**"));
-  console.log("10 % 3 =", calculator(10, 3, "%"));
-
-  console.log("\nData Analysis Demo:");
-  const dataset = [12, 45, 7, 23, 56, 89, 3];
-  const analysis = analyzeData(dataset);
-  console.log("Dataset:", dataset);
-  console.log("Analysis:", analysis);
-}
-
-function calculator(num1, num2, operator) {
-  switch (operator) {
-    case "+":
-      return num1 + num2;
-    case "-":
-      return num1 - num2;
-    case "*":
-      return num1 * num2;
-    case "/":
-      if (num2 === 0) {
-        return "Error: Division by zero";
-      }
-      return num1 / num2;
-    case "%":
-      return num1 % num2;
-    case "**":
-      return Math.pow(num1, num2);
-    default:
-      return "Error: Invalid operator";
-  }
-}
-
-console.log("=== Challenge-3-buntoro7 Calculator & Data Analyzer ===");
-console.log("Running in browser environment...");
-showMenu();
